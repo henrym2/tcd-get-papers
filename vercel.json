@@ -1,0 +1,9 @@
+{
+    "functions": {
+        "api/papers.py": {
+            "memory": 3008,
+            "maxDuation": 60
+        }
+    },
+    "cleanUrls": true
+}
