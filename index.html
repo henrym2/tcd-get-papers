@@ -114,7 +114,7 @@
             methods: {
                 async search (type) {
                     try {
-                        let baseUrl = `http://localhost:8080/?${type}=${this.searchParam}&years[]=${[this.selectedYears]}` 
+                        let baseUrl = `https://tcd-get-papers.vercel.app/api/papers?${type}=${this.searchParam}&years[]=${[this.selectedYears]}` 
                         let res = await fetch(baseUrl)
                         let data = await res.json()
                         this.results = this.parseResults(data)
