@@ -117,10 +117,12 @@
                         let baseUrl = `https://tcd-get-papers.vercel.app/api/papers?${type}=${this.searchParam}&years[]=${[this.selectedYears]}` 
                         let res = await fetch(baseUrl)
                         let data = await res.json()
-                        this.results = this.parseResults(data)
-                        console.log(this.results)
-                        this.error = false
-                        this.searchParam = ""
+                        if(data != "malformed request") {
+                            this.results = this.parseResults(data)
+                            console.log(this.results)
+                            this.error = false
+                            this.searchParam = ""
+                        }
                     } catch (e) {
                         this.errorOccured(e)
                     }
