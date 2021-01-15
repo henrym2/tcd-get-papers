@@ -17,12 +17,17 @@ class handler(BaseHTTPRequestHandler):
         if "course" in dic:
             dic['years[]'] = dic['years[]'].split(',')
             message = find_by_course(dic['course'], dic['years[]'])
+            self.send_response(200)
+
         elif "code" in dic:
             dic['years[]'] = dic['years[]'].split(',')
             message = find_by_code(dic['code'], dic['years[]'])
+            self.send_response(200)
+
         else:
             message = "malformed request"#
-        self.send_response(200)
+            self.send_response(500)
+
         self.send_header('Content-Type', 'application/json')
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
