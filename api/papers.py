@@ -54,7 +54,7 @@ def find_by_course(course, years):
 def find_by_code(code, years):
     yearReturn = {}
     for year in years:
-        request = requests.get(f"{urlBase}/past-papers/annual-{year}/", auth=('henrym2', 'C0raTCD1'))
+        request = requests.get(f"{urlBase}/past-papers/annual-{year}/", auth=(os.getenv('access'), os.getenv('token')))
         soup = BeautifulSoup(request.text, 'html.parser')
         foundCode = soup.select(f'a[href*={code}]')
         found = {
