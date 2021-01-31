@@ -32,19 +32,16 @@
       </nav>
     <div id="app" class="container">
         <div class="row">
-            <div class="col-sm"></div>
+            <div class="col-xsm"></div>
             <div class="col">
                 <div class="card mt-4">
                     <div class="card-body">
                         <h5 class="card-title">Search for papers</h5>
-                        <p>To find exam papers, enter in a module code below, for example <b>'CSU22014'</b>.</p>
+                        <p>To find exam papers, enter in a module code below, for example <b>'CSU22014'</b>, or enter a course name such as <b>'SYSTEMS PROGRAMMING'</b></p>
                         <div class="input-group">
-                            <input type="text" class="form-control" v-model="searchParam" placeholder="Module Code">
-                            <button class="btn btn-outline-secondary" type="button" aria-expanded="false" @click="search('code')">Search</button>
-                            <!-- <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" @click="search('course')">Course</a></li>
-                                <li><a class="dropdown-item" @click="search('code')">Module Code</a></li>
-                            </ul> -->
+                            <input type="text" class="form-control" v-model="searchParam" placeholder="Module Code or Module Name">
+                            <button class="btn btn-outline-secondary" type="button" aria-expanded="false" @click="search('code')">Module Code</button>
+                            <button class="btn btn-outline-secondary" type="button" @click="search('module')">Module Name</button>
                         </div>
                         <div class="form-check-inline" v-for="year in years" :key="year.val">
                             <input class="form-check-input" type="checkbox" v-model="year.checked">
@@ -53,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm"></div>
+            <div class="col-xsm"></div>
         </div>
         <div class="row">
             <div class="col-sm"></div>
