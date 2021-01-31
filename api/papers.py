@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import os
+import re
 
 
 
@@ -24,8 +25,13 @@ class handler(BaseHTTPRequestHandler):
             message = find_by_code(dic['code'], dic['years[]'])
             self.send_response(200)
 
+        elif "module" in dic:
+            dic['years[]'] = dic['years[]'].split(',')
+            message = find_by_module(dic['module'], dic['years[]'])
+            self.send_response(200)
+
         else:
-            message = "malformed request"#
+            message = "malformed request"
             self.send_response(500)
 
         self.send_header('Content-Type', 'application/json')
@@ -64,20 +70,32 @@ def find_by_code(code, years):
         yearReturn[year] = found
     return yearReturn
 
+def find_by_module(name, years):
+    yearReturn = {}
+    for year in years:
+        request = requests.get(f"{urlBase}/past-papers/annual-{year}/", auth=(os.getenv('access'), os.getenv('token')))
+        soup = BeautifulSoup(request.text, 'html.parser')
+        foundModule = soup.find_all(text=re.compile(name))
+        found = {
+            elm: f"{urlBase}{elm.parent.next_element.next_element.next_element.next_element['href'][:5]}"
+            for elm in foundModule
+        }
+        yearReturn[year] = found
+    return yearReturn
 
-def run(server_class=HTTPServer, handler_class=handler, port=8080):
-    server_address = ('', port)
-    httpd = server_class(server_address, handler_class)
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    httpd.server_close()
+# def run(server_class=HTTPServer, handler_class=handler, port=8080):
+#     server_address = ('', port)
+#     httpd = server_class(server_address, handler_class)
+#     try:
+#         httpd.serve_forever()
+#     except KeyboardInterrupt:
+#         pass
+#     httpd.server_close()
 
-if __name__ == '__main__':
-    from sys import argv
+# if __name__ == '__main__':
+#     from sys import argv
 
-    if len(argv) == 2:
-        run(port=int(argv[1]))
-    else:
-        run()
+#     if len(argv) == 2:
+#         run(port=int(argv[1]))
+#     else:
+#         run()
