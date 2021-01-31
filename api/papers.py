@@ -54,7 +54,7 @@ def find_by_course(course, years):
 def find_by_code(code, years):
     yearReturn = {}
     for year in years:
-        request = requests.get(f"{urlBase}/past-papers/annual-{year}/", auth=('henrym2', 'C0raTCD1'))
+        request = requests.get(f"{urlBase}/past-papers/annual-{year}/", auth=(os.getenv('access'), os.getenv('token')))
         soup = BeautifulSoup(request.text, 'html.parser')
         foundCode = soup.select(f'a[href*={code}]')
         found = {
@@ -65,19 +65,19 @@ def find_by_code(code, years):
     return yearReturn
 
 
-# def run(server_class=HTTPServer, handler_class=handler, port=8080):
-#     server_address = ('', port)
-#     httpd = server_class(server_address, handler_class)
-#     try:
-#         httpd.serve_forever()
-#     except KeyboardInterrupt:
-#         pass
-#     httpd.server_close()
+def run(server_class=HTTPServer, handler_class=handler, port=8080):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
 
-# if __name__ == '__main__':
-#     from sys import argv
+if __name__ == '__main__':
+    from sys import argv
 
-#     if len(argv) == 2:
-#         run(port=int(argv[1]))
-#     else:
-#         run()
+    if len(argv) == 2:
+        run(port=int(argv[1]))
+    else:
+        run()
